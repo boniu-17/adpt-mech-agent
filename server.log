@@ -1,0 +1,96 @@
+INFO:     Started server process [56060]
+INFO:     Waiting for application startup.
+2025-12-15 10:14:07,434 - src.api.dependencies - INFO - Cache manager initialized
+2025-12-15 10:14:07,434 - src.main - INFO - Application started successfully
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+✅ Redis连接成功: 8.133.195.34:26379
+✅ Redis缓存初始化成功
+✅ Redis连接成功: 8.133.195.34:26379
+✅ Redis缓存初始化成功
+INFO:     127.0.0.1:50643 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50728 - "GET /api/chat HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50888 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51009 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51132 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51132 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51271 - "GET /openapi.json HTTP/1.1" 200 OK
+2025-12-15 10:15:45,187 - src.services.agent_service - INFO - AgentService initialized
+2025-12-15 10:15:45,187 - src.api.dependencies - INFO - Agent service initialized
+INFO:     127.0.0.1:51358 - "POST /api/chat/stream HTTP/1.1" 200 OK
+2025-12-15 10:15:45,187 - src.api.v1.endpoints.chat - ERROR - 流式聊天错误: 智能体 quantum_sales_manager 不存在
+INFO:     127.0.0.1:51992 - "GET /api/chat HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51995 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51995 - "GET /openapi.json HTTP/1.1" 200 OK
+2025-12-15 10:19:12,935 - src.services.agent_service - INFO - AgentService initialized
+INFO:     127.0.0.1:52976 - "GET /api/agents/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53040 - "GET /api/agents/list HTTP/1.1" 200 OK
+2025-12-15 10:19:33,678 - src.agents.impls.llm.llm_factory - INFO - Created LLM for agent quantum_sales_manager (type: deepseek)
+2025-12-15 10:19:33,678 - src.agents.impls.agent.simple_agent - INFO - SimpleAgent实例创建: agent_simple_quantum_sales_manager_1765765173 (quantum_sales_manager), 最大历史: 10
+2025-12-15 10:19:33,709 - src.managers.agent_manager - INFO - Agent registered: agent_simple_quantum_sales_manager_1765765173
+2025-12-15 10:19:33,709 - src.managers.agent_manager - INFO - Agent initialized: agent_simple_quantum_sales_manager_1765765173
+INFO:     127.0.0.1:53133 - "POST /api/agents/create HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53252 - "POST /api/chat/stream HTTP/1.1" 200 OK
+2025-12-15 10:19:48,958 - src.api.v1.endpoints.chat - ERROR - 流式聊天错误: 智能体 agent_simple_quantum_sales_manager_1765765173 不存在
+2025-12-15 10:21:07,233 - src.agents.impls.llm.llm_factory - INFO - Created LLM for agent quantum_sales_manager (type: deepseek)
+2025-12-15 10:21:07,234 - src.agents.impls.agent.simple_agent - INFO - SimpleAgent实例创建: agent_simple_quantum_sales_manager_1765765267 (quantum_sales_manager), 最大历史: 10
+2025-12-15 10:21:07,265 - src.managers.agent_manager - INFO - Agent registered: agent_simple_quantum_sales_manager_1765765267
+2025-12-15 10:21:07,265 - src.managers.agent_manager - INFO - Agent initialized: agent_simple_quantum_sales_manager_1765765267
+INFO:     127.0.0.1:53856 - "POST /api/agents/create HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53953 - "POST /api/agents/agent_simple_quantum_sales_manager_1765765267/stream HTTP/1.1" 200 OK
+2025-12-15 10:21:20,367 - src.agents.impls.agent.simple_agent - ERROR - 流式处理失败 - 实例: agent_simple_quantum_sales_manager_1765765267, 错误: DeepSeek流式调用失败: AsyncCompletions.create() got an unexpected keyword argument 'session_id'
+Traceback (most recent call last):
+  File "/Users/lijunma/Documents/GitHub/adpt-mech-agent/src/agents/impls/llm/deepseek_llm.py", line 68, in stream_invoke
+    response = await client.chat.completions.create(**params)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lijunma/Library/Python/3.12/lib/python/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: AsyncCompletions.create() got an unexpected keyword argument 'session_id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/lijunma/Documents/GitHub/adpt-mech-agent/src/agents/impls/agent/simple_agent.py", line 158, in process_stream
+    async for chunk in stream_result:
+  File "/Users/lijunma/Documents/GitHub/adpt-mech-agent/src/agents/impls/llm/deepseek_llm.py", line 73, in stream_invoke
+    raise Exception(f"DeepSeek流式调用失败: {str(e)}")
+Exception: DeepSeek流式调用失败: AsyncCompletions.create() got an unexpected keyword argument 'session_id'
+2025-12-15 10:21:20,369 - src.services.agent_service - ERROR - 流式处理消息失败: [AGENT_ERROR] 流式处理失败: DeepSeek流式调用失败: AsyncCompletions.create() got an unexpected keyword argument 'session_id'
+INFO:     127.0.0.1:55150 - "POST /api/agents/agent_simple_quantum_sales_manager_1765765267/stream HTTP/1.1" 200 OK
+2025-12-15 10:23:47,724 - src.agents.impls.agent.simple_agent - ERROR - 流式处理失败 - 实例: agent_simple_quantum_sales_manager_1765765267, 错误: DeepSeek流式调用失败: AsyncCompletions.create() got an unexpected keyword argument 'session_id'
+Traceback (most recent call last):
+  File "/Users/lijunma/Documents/GitHub/adpt-mech-agent/src/agents/impls/llm/deepseek_llm.py", line 68, in stream_invoke
+    response = await client.chat.completions.create(**params)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lijunma/Library/Python/3.12/lib/python/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: AsyncCompletions.create() got an unexpected keyword argument 'session_id'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/lijunma/Documents/GitHub/adpt-mech-agent/src/agents/impls/agent/simple_agent.py", line 158, in process_stream
+    async for chunk in stream_result:
+  File "/Users/lijunma/Documents/GitHub/adpt-mech-agent/src/agents/impls/llm/deepseek_llm.py", line 73, in stream_invoke
+    raise Exception(f"DeepSeek流式调用失败: {str(e)}")
+Exception: DeepSeek流式调用失败: AsyncCompletions.create() got an unexpected keyword argument 'session_id'
+2025-12-15 10:23:47,724 - src.services.agent_service - ERROR - 流式处理消息失败: [AGENT_ERROR] 流式处理失败: DeepSeek流式调用失败: AsyncCompletions.create() got an unexpected keyword argument 'session_id'
+2025-12-15 10:29:39,548 - src.api.v1.endpoints.agents - ERROR - 列出智能体失败: 'AgentFullConfig' object has no attribute 'name'
+INFO:     127.0.0.1:57917 - "GET /api/agents/list HTTP/1.1" 200 OK
+2025-12-15 10:37:53,672 - src.api.v1.endpoints.agents - ERROR - 列出智能体失败: 'AgentFullConfig' object has no attribute 'name'
+INFO:     127.0.0.1:61939 - "GET /api/agents/list HTTP/1.1" 200 OK
+2025-12-15 10:37:54,893 - src.api.v1.endpoints.agents - ERROR - 列出智能体失败: 'AgentFullConfig' object has no attribute 'name'
+INFO:     127.0.0.1:61939 - "GET /api/agents/list HTTP/1.1" 200 OK
+2025-12-15 10:37:55,961 - src.api.v1.endpoints.agents - ERROR - 列出智能体失败: 'AgentFullConfig' object has no attribute 'name'
+INFO:     127.0.0.1:61939 - "GET /api/agents/list HTTP/1.1" 200 OK
+2025-12-15 10:37:56,454 - src.api.v1.endpoints.agents - ERROR - 列出智能体失败: 'AgentFullConfig' object has no attribute 'name'
+INFO:     127.0.0.1:61939 - "GET /api/agents/list HTTP/1.1" 200 OK
+2025-12-15 10:37:56,825 - src.api.v1.endpoints.agents - ERROR - 列出智能体失败: 'AgentFullConfig' object has no attribute 'name'
+INFO:     127.0.0.1:61939 - "GET /api/agents/list HTTP/1.1" 200 OK
+2025-12-15 10:37:57,066 - src.api.v1.endpoints.agents - ERROR - 列出智能体失败: 'AgentFullConfig' object has no attribute 'name'
+INFO:     127.0.0.1:61939 - "GET /api/agents/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62443 - "GET /health HTTP/1.1" 404 Not Found
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 5 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

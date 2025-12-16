@@ -1,0 +1,113 @@
+# 系统默认配置
+# 当主配置文件不存在时使用此配置
+
+system:
+  environment: development
+  debug: true
+  log_level: INFO
+
+redis:
+  host: localhost
+  port: 6379
+  db: 0
+  password: null
+  ssl: false
+  connection_pool_size: 10
+  socket_timeout: 5
+  socket_connect_timeout: 5
+  retry_on_timeout: true
+  health_check_interval: 30
+  max_connections: 50
+  state_ttl: 3600
+  heartbeat_interval: 60
+  max_state_size: 1048576
+  cache_ttl: 1800
+  enable_cache: true
+
+database:
+  dialect: sqlite
+  host: null
+  port: null
+  database: adpt_mech.db
+  username: null
+  password: null
+  pool_size: 5
+  max_overflow: 10
+  echo: false
+
+storage:
+  base_dir: data
+  temp_dir: temp
+  max_file_size: 52428800
+  allowed_extensions:
+    - .txt
+    - .pdf
+    - .docx
+    - .xlsx
+    - .json
+    - .yaml
+    - .yml
+
+llm:
+  provider: openai
+  model: gpt-3.5-turbo
+  api_key: ""
+  base_url: ""
+  temperature: 0.1
+  max_tokens: 2000
+
+knowledge:
+  vector_store:
+    type: chroma
+    persist_directory: ./data/vector_stores/chroma
+    collection_name: documents
+  embedder:
+    type: local
+    model_name: BAAI/bge-small-zh-v1.5
+    device: cpu
+  retriever:
+    type: hybrid
+    top_k: 5
+    similarity_threshold: 0.7
+  processors:
+    text_splitter:
+      chunk_size: 500
+      chunk_overlap: 50
+
+agents:
+  default_type: react
+  max_iterations: 5
+  timeout_seconds: 30
+  enable_knowledge: true
+  enable_tools: true
+
+tools:
+  builtin:
+    calculator: true
+    search: true
+    knowledge_query: true
+  custom:
+    enabled: false
+    directory: ./custom_tools
+
+api:
+  host: 0.0.0.0
+  port: 8000
+  debug: false
+  cors_origins:
+    - "*"
+  rate_limit_per_minute: 60
+
+security:
+  secret_key: your-secret-key-here
+  token_expire_hours: 24
+  algorithm: HS256
+  enable_auth: false
+  allowed_ips:
+    - 127.0.0.1
+    - "::1"
+
+performance:
+  max_concurrent_tasks: 10
+  cache_ttl: 3600
+  cleanup_interval: 3600

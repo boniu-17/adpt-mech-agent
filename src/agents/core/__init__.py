@@ -3,35 +3,31 @@ HelloAgents 核心框架模块
 提供智能体系统的基础组件和接口定义
 """
 
-from src.agents.core.config import Config
-from src.agents.core.exceptions import (
+from src.shared.exceptions import (
     AgentError,
     ToolExecutionError,
     LLMError,
     ConfigurationError,
     ValidationError
 )
-from src.agents.core.llm import HelloAgentsLLM, LLMConfig
-from src.agents.core.manager import AgentManager, PreconfiguredAgentManager, AgentState, AgentProfile
-from src.agents.core.message import Message, MessageType, ConversationHistory
-from src.agents.core.agent import Agent, AgentConfig, AgentState
-from src.agents.impls import SimpleAgent, ReActAgent, ReflectionAgent, PlanAndSolveAgent
+from src.agents.core.base_llm import BaseLLM
+from src.agents.core.base_message import Message, MessageType, ConversationHistory
+from src.agents.core.base_agent import BaseAgent, AgentConfig
+from src.agents.enum.agent_state import AgentState
+# 具体的Agent实现在impls模块中，这里只提供基类和接口
 
 __all__ = [
-    # Agent类impl
-    'Agent', 'SimpleAgent', 'ReActAgent', 'ReflectionAgent', 'PlanAndSolveAgent',
+    # Agent基类和接口
+    'BaseAgent', 'AgentConfig', 'AgentState',
 
     # LLM相关
-    'HelloAgentsLLM', 'LLMConfig',
+    'BaseLLM',
 
     # 消息系统
     'Message', 'MessageType', 'ConversationHistory',
 
-    # 配置管理
-    'Config',
-
-    # 智能体管理
-    'AgentManager', 'PreconfiguredAgentManager', 'AgentState', 'AgentProfile',
+    # 智能体状态
+    'AgentState',
 
     # 异常体系
     'AgentError', 'ToolExecutionError', 'LLMError', 'ConfigurationError', 'ValidationError'

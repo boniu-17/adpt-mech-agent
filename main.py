@@ -12,9 +12,11 @@ from pathlib import Path
 # 添加项目根目录到Python路径
 sys.path.insert(0, str(Path(__file__).parent))
 
+from src.shared.utils.log_config import init_logging
 from src.adaptive.knowledge_manager import KnowledgeManager
-from src.adaptive import ToolManager
-from src.adaptive import AgentOrchestrator, AgentRole
+from src.adaptive.tool_manager import KnowledgeToolManager as ToolManager
+from src.adaptive.agent_orchestrator import AgentOrchestrator
+from src.adaptive.agent_role import AgentRole
 
 logger = logging.getLogger(__name__)
 
@@ -246,6 +248,12 @@ class AdaptiveMechAgentSystem:
                 with open(config_path, 'r', encoding='utf-8') as f:
                     user_config = yaml.safe_load(f)
                     default_config.update(user_config)
+                
+                # 根据配置文件初始化日志系统
+                if 'logging' in user_config:
+                    from src.shared.utils.log_config import setup_logging_from_config
+                    setup_logging_from_config(user_config)
+                
                 logger.info(f"Loaded configuration from {config_path}")
             except Exception as e:
                 logger.warning(f"Failed to load config from {config_path}: {e}")
@@ -340,10 +348,12 @@ def main():
     args = parser.parse_args()
     
     # 配置日志
-    logging.basicConfig(
-        level=getattr(logging, args.log_level),
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    )
+    if args.config:
+        init_logging(args.config)
+    else:
+        # 如果没有配置文件，使用命令行参数
+        from src.shared.utils.logger import setup_logging
+        setup_logging(level=args.log_level)
     
     if args.demo:
         # 运行交互式演示

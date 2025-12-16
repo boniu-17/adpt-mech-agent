@@ -10,10 +10,10 @@ HelloAgents - 智能体开发框架
 
 快速开始：
 ```python
-from impls import SimpleAgent, HelloAgentsLLM
+from impls import SimpleAgent, BaseLLM
 
 # 创建LLM实例
-llm = HelloAgentsLLM()
+llm = BaseLLM()
 
 # 创建简单智能体
 agent = SimpleAgent("助手", llm)
@@ -25,8 +25,12 @@ print(response)
 """
 
 from src.agents.core import (
-    Agent, SimpleAgent, ReActAgent, ReflectionAgent, PlanAndSolveAgent,
-    HelloAgentsLLM, Message, ConversationHistory, Config
+    BaseAgent, AgentConfig, AgentState,
+    BaseLLM, Message, ConversationHistory
+)
+from src.agents.impls import (
+    SimpleAgent, ReActAgent, ReflectionAgent, PlanAndSolveAgent,
+    AgentFactory, create_agent, create_agent_from_config
 )
 from src.agents.tools import ToolRegistry, CalculatorTool, SearchTool
 
@@ -35,16 +39,23 @@ __author__ = "HelloAgents Team"
 
 __all__ = [
     # Core components
-    'Agent',
-    'SimpleAgent', 
+    'BaseAgent',
+    'AgentConfig',
+    'AgentState',
+    'BaseLLM',
+    'Message',
+    'ConversationHistory',
+
+    # Agent实现和工厂
+    'SimpleAgent',
     'ReActAgent',
     'ReflectionAgent',
     'PlanAndSolveAgent',
-    'HelloAgentsLLM',
-    'Message',
-    'ConversationHistory',
-    'Config',
-    
+    'AgentFactory',
+    'create_agent',
+    'create_agent_from_config',
+
+
     # Tools
     'ToolRegistry',
     'CalculatorTool',

@@ -7,9 +7,9 @@ import logging
 from typing import Dict, Any, List
 from datetime import datetime
 
-from src.agents.tools.base import Tool
-from src.knowledge.schema.query import Query
-from src.knowledge.schema.chunk import KnowledgeChunk
+from src.agents.tools.tool_base import Tool
+from src.knowledge.core.schema.query import Query
+from src.knowledge.core.schema.chunk import Chunk as KnowledgeChunk
 from src.agents.core import Message
 from src.adaptive.knowledge_manager import KnowledgeManager
 
@@ -72,9 +72,9 @@ class KnowledgeRetrievalTool(Tool):
         self.is_initialized = True
         self.logger.info("知识检索工具初始化完成")
     
-    async def _execute(
-        self, 
-        query: str, 
+    async def execute(
+        self,
+        query: str,
         search_type: str = "semantic",
         knowledge_bases: List[str] = None,
         top_k: int = 5,

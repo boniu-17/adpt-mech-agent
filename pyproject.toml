@@ -1,7 +1,9 @@
 # adpt-mech-agent/pyproject.toml
+# Python项目配置文件，遵循PEP 621标准
+# 用于定义项目元数据、依赖关系、构建配置等
 
 [project]
-# 项目基础信息
+# 项目基础信息 - 定义项目的核心元数据
 name = "adpt-mech-agent"
 version = "0.1.0"
 description = "自适应机制智能体框架，支持知识库RAG集成"
@@ -27,36 +29,39 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 
-# 项目URLs
+# 项目URLs - 提供项目的相关链接信息
 urls = { Homepage = "https://github.com/yourname/adpt-mech-agent" }
 documentation = "https://adpt-mech-agent.readthedocs.io/"
 repository = "https://github.com/yourname/adpt-mech-agent"
 changelog = "https://github.com/yourname/adpt-mech-agent/blob/main/CHANGELOG.md"
 
-# 入口点（重要！）
+# 入口点配置 - 定义命令行工具的可执行脚本
+# 这些命令会在安装包后自动创建到系统PATH中
 [project.scripts]
 adpt-agent = "main:main"
 knowledge-cli = "scripts.knowledge_cli:main"
 
-# 依赖管理
+# 依赖管理 - 定义项目运行所需的核心依赖
+# 这些依赖会在安装包时自动安装
 dependencies = [
-    # 核心依赖
+    # 核心依赖 - 数据验证和类型提示
     "pydantic>=2.5.0",
     "typing-extensions>=4.8.0",
-    # 异步支持
+    # 异步支持 - 异步HTTP请求和文件操作
     "aiohttp>=3.9.0",
     "aiofiles>=23.2.0",
     "asyncio>=3.4.3",
-    # 配置管理
+    # 配置管理 - YAML和.env文件解析
     "pyyaml>=6.0",
     "python-dotenv>=1.0.0",
-    # 日志
+    # 日志 - 结构化日志记录
     "structlog>=23.1.0",
-    # 可选依赖（默认安装）
+    # 平台特定依赖 - Windows终端颜色支持
     "colorama>=0.4.6; platform_system == 'Windows'",
 ]
 
-# 可选依赖组（按需安装）
+# 可选依赖组 - 按功能模块分组，可按需安装
+# 使用方式：pip install "adpt-mech-agent[group-name]"
 [project.optional-dependencies]
 # 向量存储选项
 qdrant = ["qdrant-client>=1.6.7"]
@@ -92,6 +97,16 @@ retrieval = [
 # LLM集成
 llm-openai = ["openai>=1.3.0"]
 llm-anthropic = ["anthropic>=0.7.0"]
+# Token管理
+token-management = [
+    "tiktoken>=0.5.0",
+]
+
+# Prompt模板管理
+prompt-management = [
+    "PyYAML>=6.0.0",
+]
+
 llm-local = [
     "vllm>=0.2.0",
     "transformers>=4.35.0",
@@ -146,26 +161,27 @@ full = [
     "black>=23.11.0",
 ]
 
-# 构建系统配置（必须）
+# 构建系统配置 - 定义包构建所需的工具和版本
+# 这是PEP 517/518要求的必要配置
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
-# 工具配置部分
+# setuptools配置 - 控制包的打包行为
 [tool.setuptools]
-# 包发现配置
+# 包发现配置 - 指定包的位置和结构
 packages = ["src"]
 package-dir = { "" = "src" }
 
-# 包含数据文件
+# 包含数据文件 - 指定需要打包的非Python文件
 [tool.setuptools.package-data]
 "*" = ["*.yml", "*.yaml", "*.json", "*.md"]
 
-# 排除文件
+# 排除文件 - 防止不必要的文件被打包
 [tool.setuptools.exclude-package-data]
 "*" = ["*.pyc", "__pycache__/*", "*.so", "*.dll"]
 
-# 工具配置：代码质量
+# 代码质量工具配置 - 格式化、类型检查、linting等
 [tool.black]
 line-length = 88
 target-version = ['py39']
@@ -233,20 +249,22 @@ exclude = [
     "node_modules",
 ]
 
+# pytest配置 - 测试框架的设置
 [tool.pytest.ini_options]
-# pytest配置
+# pytest配置 - 定义测试发现规则和默认选项
 testpaths = ["tests"]
 python_files = ["test_*.py"]
+norecursedirs = ["examples", "docs", "data"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = [
     "--strict-markers",
     "--strict-config",
-    "--tb=short",
-    "--cov=src",
+    "--tb=short",           # 简短的错误回溯
+    "--cov=src",            # 代码覆盖率检测
     "--cov-report=term-missing",
     "--cov-report=html",
-    "--asyncio-mode=auto",
+    "--asyncio-mode=auto",  # 异步测试支持
 ]
 markers = [
     "unit: unit tests",
@@ -255,7 +273,7 @@ markers = [
     "e2e: end-to-end tests",
 ]
 
-# 项目结构定义（可选，用于文档生成）
+# 项目结构定义 - 用于文档生成和项目理解
 [tool.structure]
 src-layout = true
 modules = [
@@ -265,11 +283,11 @@ modules = [
     { name = "shared", description = "共享工具和配置" },
 ]
 
-# 任务运行器配置（如使用 python -m build）
+# 任务运行器配置 - 定义自定义构建任务
 [tool.taskipy]
 tasks = {}
 
-# 环境配置（用于动态加载）
+# 环境配置 - 定义不同环境的默认变量值
 [tool.env]
 # 环境变量默认值
 defaults = { ENVIRONMENT = "development", LOG_LEVEL = "INFO" }
@@ -285,20 +303,20 @@ DEBUG = "false"
 DATABASE_URL = "postgresql://user:pass@localhost/prod"
 VECTOR_STORE_URL = "http://vector-store:6333"
 
-# 项目元数据扩展（用于文档）
+# 项目元数据扩展 - 提供额外的项目信息
 [project.metadata]
-# 扩展的元数据
+# 扩展的元数据 - 用于文档和包索引显示
 support = { email = "support@example.com", forum = "https://github.com/yourname/adpt-mech-agent/discussions" }
 funding = { github = "yourname" }
 social = { twitter = "@yourhandle", mastodon = "@yourhandle@mastodon.social" }
 
-# 兼容性信息
+# 兼容性信息 - 明确支持的平台和环境
 [project.compatibility]
 python-versions = ["3.9", "3.10", "3.11", "3.12"]
 os = ["Linux", "macOS", "Windows"]
 arch = ["x86_64", "arm64"]
 
-# 发布配置
+# 发布配置 - PyPI发布相关的设置
 [project.release]
 # 发布到PyPI的配置
 pypi-repository = "https://upload.pypi.org/legacy/"

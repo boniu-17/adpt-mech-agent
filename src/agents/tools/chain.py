@@ -7,7 +7,7 @@ import asyncio
 from typing import Dict, List, Optional, Any, Callable
 from dataclasses import dataclass
 from enum import Enum
-from src.agents.tools.base import Tool, AsyncTool
+from src.agents.tools.tool_base import Tool, AsyncTool
 from src.agents.tools.registry import ToolRegistry
 
 

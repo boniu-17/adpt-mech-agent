@@ -5,8 +5,8 @@ Agent协调器 - 协调知识感知Agent的执行
 
 import logging
 from typing import Dict, Any, List
-from src.agents.core.agent import Agent
-from src.agents.core import KnowledgeAwareAgent
+from src.agents.core.base_agent import BaseAgent
+from src.agents.impls.agent.knowledge_aware_agent import KnowledgeAwareAgent
 from src.adaptive.knowledge_manager import KnowledgeManager
 
 
@@ -16,10 +16,10 @@ class AgentOrchestrator:
     def __init__(self, knowledge_manager: KnowledgeManager):
         self.knowledge_manager = knowledge_manager
         self.logger = logging.getLogger(__name__)
-        self.agents: Dict[str, Agent] = {}
+        self.agents: Dict[str, BaseAgent] = {}
         self.conversation_history: List[Dict[str, Any]] = []
     
-    async def register_agent(self, agent_id: str, agent: Agent) -> None:
+    async def register_agent(self, agent_id: str, agent: BaseAgent) -> None:
         """注册Agent"""
         self.agents[agent_id] = agent
         

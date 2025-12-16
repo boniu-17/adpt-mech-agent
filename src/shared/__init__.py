@@ -7,11 +7,9 @@ __version__ = "1.0.0"
 
 # 导出主要接口
 from .utils.logger import get_logger
-from .config.manager import ConfigManager
-from .exceptions.base import BaseError
+from .exceptions.base_errors import BaseError
 
 __all__ = [
     'get_logger',
-    'ConfigManager', 
-    'BaseException'
+    'BaseError'
 ]

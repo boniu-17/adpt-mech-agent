@@ -69,7 +69,7 @@ def start_cli_mode():
     print("输入 'quit' 或 'exit' 退出")
     print("输入 'help' 查看帮助")
     
-    from src.agents.core.agent import SimpleAgent
+    from src.agents.impls.agent.simple_agent import SimpleAgent
     from src.shared.config.manager import ConfigManager
     
     config = ConfigManager().get_config()

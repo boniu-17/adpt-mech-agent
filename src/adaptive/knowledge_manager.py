@@ -8,11 +8,11 @@ import logging
 from typing import Dict, Any, List, Optional
 from pathlib import Path
 
-from src.knowledge import KnowledgeBase
-from src.knowledge.schema.document import Document
-from src.knowledge.schema.query import Query
-from src.knowledge.schema.chunk import KnowledgeChunk
-from src.agents.core import KnowledgeConfig
+from src.knowledge.core.knowledge_base import KnowledgeBase
+from src.knowledge.core.schema.document import Document
+from src.knowledge.core.schema.query import Query
+from src.knowledge.core.schema.chunk import Chunk as KnowledgeChunk
+from src.knowledge import KnowledgeConfig
 
 
 class KnowledgeManager:
@@ -82,8 +82,22 @@ class KnowledgeManager:
     async def _create_knowledge_base(self, name: str, config_data: Dict[str, Any]) -> None:
         """创建知识库实例"""
         try:
-            config = KnowledgeConfig(**config_data)
-            knowledge_base = KnowledgeBase(name=name, config=config)
+            # 过滤掉KnowledgeConfig不支持的参数
+            valid_config = {k: v for k, v in config_data.items()
+                          if k in ['vector_store_config', 'embedder_config',
+                                 'processors_config', 'retriever_config',
+                                 'chunk_size', 'chunk_overlap', 'similarity_threshold']}
+            
+            config = KnowledgeConfig(**valid_config)
+            
+            # 创建默认向量存储和嵌入器
+            from src.knowledge.stores.chroma_store import ChromaVectorStore
+            from src.knowledge.embedders.local_embedder import LocalEmbedder
+            
+            vector_store = ChromaVectorStore(collection_name=f"kb_{name}")
+            embedder = LocalEmbedder()
+            
+            knowledge_base = KnowledgeBase(vector_store=vector_store, embedder=embedder)
             await knowledge_base.initialize()
             
             self.knowledge_bases[name] = knowledge_base

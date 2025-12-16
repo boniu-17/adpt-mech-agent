@@ -4,7 +4,7 @@
 """
 
 from typing import Optional, Dict, Any
-from .base import BaseError
+from .base_errors import BaseError
 
 
 class KnowledgeBaseError(BaseError):

@@ -4,8 +4,7 @@
 """
 
 from typing import Dict, List, Optional, Any
-from src.agents.tools.base import Tool, AsyncTool
-
+from src.agents.tools.tool_base import Tool, AsyncTool
 
 class ToolRegistry:
     """工具注册表 - 单例模式"""

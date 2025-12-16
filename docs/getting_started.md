@@ -52,8 +52,9 @@ print(response)
 ```
 
 ### 知识感知Agent
+
 ```python
-from src.agents.impls.react_agent import ReActAgent
+from src.agents.impls.agent.react_agent import ReActAgent
 from src.knowledge.core.knowledge_base import KnowledgeBase
 
 # 初始化知识库

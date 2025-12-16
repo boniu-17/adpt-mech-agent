@@ -13,7 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.knowledge import KnowledgeBase
-from src.agents.core import KnowledgeConfig
+from src.knowledge import KnowledgeConfig
 
 
 class KnowledgeCLI:

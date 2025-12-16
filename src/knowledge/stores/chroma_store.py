@@ -11,7 +11,7 @@ from pathlib import Path
 import chromadb
 from chromadb.config import Settings
 
-from .base import BaseVectorStore
+from .store_base import BaseVectorStore
 from ...core.schema.chunk import Chunk
 
 logger = logging.getLogger(__name__)

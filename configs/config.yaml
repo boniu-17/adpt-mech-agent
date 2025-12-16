@@ -1,50 +1,157 @@
 # 自适应机制智能体系统配置
+# 统一管理系统级配置：数据库、Redis、文件存储等
 
-# 知识管理配置
-knowledge:
-  vector_db_path: "./data/vector_db"
-  chunk_size: 500
-  chunk_overlap: 50
-  embedding_model: "text-embedding-ada-002"
-  max_chunks_per_document: 1000
-  similarity_threshold: 0.7
-
-# 智能体配置
-agents:
-  default_role: "support_agent"
-  enable_auto_routing: true
-  max_conversation_history: 50
-  confidence_threshold: 0.6
-
-# 工具调用配置
-tools:
-  enable_shell_access: false
-  enable_file_operations: true
-  max_execution_time: 30
-  require_confirmation: true
+# 环境配置
+system:
+  environment: "development"  # development, production
+  debug: true
+  log_level: "INFO"
 
 # 日志配置
 logging:
-  level: "INFO"
-  file_path: "./logs/system.log"
-  max_file_size: "10MB"
-  backup_count: 5
+  # 基础配置
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  date_format: "%Y-%m-%d %H:%M:%S"
+  enable_colors: true
+  
+  # 文件日志配置
+  file_logging:
+    enabled: true
+    directory: "logs"
+    filename: "adpt_mech_agent.log"
+    max_bytes: 10485760  # 10MB
+    backup_count: 30     # 保留30个备份文件（约一个月）
+    encoding: "utf-8"
+    
+  # 控制台日志配置
+  console_logging:
+    enabled: true
+    level: "INFO"
+    
+  # 日志轮转和清理
+  rotation:
+    when: "midnight"     # 每天午夜轮转
+    interval: 1          # 每天一次
+    backup_count: 30     # 保留30天日志
+    
+  # 特定模块的日志级别
+  loggers:
+    "src.agents": "DEBUG"
+    "src.knowledge": "INFO"
+    "src.services": "INFO"
+    "src.managers": "INFO"
 
-# API配置（未来扩展）
+# Redis配置 - 用于状态管理和缓存
+redis:
+  host: "8.133.195.34"
+  port: 26379
+  db: 0
+  password: null
+  ssl: false
+  connection_pool_size: 10
+  socket_timeout: 5
+  socket_connect_timeout: 5
+  retry_on_timeout: true
+  health_check_interval: 30
+  max_connections: 50
+  
+  # 状态管理相关配置
+  state_ttl: 3600           # 状态过期时间（秒）
+  heartbeat_interval: 60    # 心跳间隔（秒）
+  max_state_size: 1048576   # 最大状态大小（字节）
+  
+  # 缓存配置
+  cache_ttl: 1800           # 缓存过期时间（秒）
+  enable_cache: true
+
+# 数据库配置
+database:
+  dialect: "mysql"         # sqlite, mysql, postgresql
+  host: "8.133.195.34"
+  port: 3306
+  database: "agent_config_center"
+  username: "root"
+  password: "Ict@123"
+  pool_size: 5
+  max_overflow: 10
+  echo: false
+
+# 文件存储配置
+storage:
+  base_dir: "data"
+  temp_dir: "temp"
+  max_file_size: 52428800   # 50MB
+  allowed_extensions: [".txt", ".pdf", ".docx", ".xlsx", ".json", ".yaml", ".yml"]
+
+# LLM配置
+llm:
+  provider: "openai"  # openai, azure, local
+  model: "gpt-3.5-turbo"
+  api_key: ${OPENAI_API_KEY}
+  base_url: ""
+  temperature: 0.1
+  max_tokens: 2000
+
+# 知识库配置
+knowledge:
+  vector_store:
+    type: "chroma"  # chroma, qdrant
+    persist_directory: "./data/vector_stores/chroma"
+    collection_name: "documents"
+    
+  embedder:
+    type: "local"  # local, openai, bge
+    model_name: "BAAI/bge-small-zh-v1.5"
+    device: "cpu"
+    
+  retriever:
+    type: "hybrid"  # vector, bm25, hybrid
+    top_k: 5
+    similarity_threshold: 0.7
+    
+  processors:
+    text_splitter:
+      chunk_size: 500
+      chunk_overlap: 50
+
+# Agent配置
+agents:
+  default_type: "react"  # simple, react, reflection, plan_solve
+  max_iterations: 5
+  timeout_seconds: 30
+  enable_knowledge: true
+  enable_tools: true
+
+# 工具配置
+tools:
+  builtin:
+    calculator: true
+    search: true
+    knowledge_query: true
+    
+  custom:
+    enabled: false
+    directory: "./custom_tools"
+
+# API配置
 api:
-  enabled: false
-  host: "localhost"
+  host: "0.0.0.0"
   port: 8000
+  debug: false
   cors_origins: ["*"]
+  rate_limit_per_minute: 60
+
+# 安全配置
+security:
+  secret_key: "your-secret-key-here"
+  token_expire_hours: 24
+  algorithm: "HS256"
+  enable_auth: false
+  allowed_ips: ["127.0.0.1", "::1"]
 
 # 性能配置
 performance:
   max_concurrent_tasks: 10
   cache_ttl: 3600
   cleanup_interval: 3600
-
-# 安全配置
-security:
-  enable_auth: false
-  allowed_ips: ["127.0.0.1", "::1"]
-  rate_limit_per_minute: 60

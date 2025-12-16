@@ -9,7 +9,7 @@ from typing import Dict, List, Optional, Any, Union, AsyncGenerator
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 from dataclasses import dataclass
 from enum import Enum
-from src.agents.tools.base import Tool, AsyncTool
+from src.agents.tools.tool_base import Tool, AsyncTool
 from src.agents.tools.registry import ToolRegistry
 
 

@@ -32,7 +32,7 @@ class SearchTool(Tool):
                     "case_sensitive": {
                         "type": "boolean",
                         "description": "是否区分大小写",
-                        "default": false
+                        "default": False
                     },
                     "max_results": {
                         "type": "integer",

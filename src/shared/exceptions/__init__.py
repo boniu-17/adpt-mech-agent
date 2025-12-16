@@ -3,13 +3,19 @@
 定义项目使用的所有异常类型
 """
 
-from .base import BaseError, ConfigError, ValidationError
+from .base_errors import BaseError, ConfigError, ValidationError, ConfigurationError
 from .agent_errors import (
     AgentError,
     AgentExecutionError,
     AgentInitializationError,
     ToolNotFoundError,
-    ToolExecutionError
+    ToolExecutionError,
+    LLMError,
+    TimeoutError,
+    ResourceNotFoundError,
+    PermissionError,
+    RetryExhaustedError,
+    InvalidStateError
 )
 from .knowledge_errors import (
     KnowledgeBaseError,
@@ -27,13 +33,20 @@ from .tool_errors import (
 
 __all__ = [
     'BaseError',
-    'ConfigError', 
+    'ConfigError',
     'ValidationError',
+    'ConfigurationError',
     'AgentError',
     'AgentExecutionError',
     'AgentInitializationError',
     'ToolNotFoundError',
     'ToolExecutionError',
+    'LLMError',
+    'TimeoutError',
+    'ResourceNotFoundError',
+    'PermissionError',
+    'RetryExhaustedError',
+    'InvalidStateError',
     'KnowledgeBaseError',
     'DocumentLoadError',
     'EmbeddingError',

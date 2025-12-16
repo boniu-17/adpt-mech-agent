@@ -8,19 +8,19 @@ from typing import List, Dict, Any, Optional, Union
 from pathlib import Path
 import logging
 
-from .base import BaseKnowledgeBase
+from .knowledge_base_interface import AbstractKnowledgeBase
 from .schema.document import Document
 from .schema.chunk import Chunk
 from .schema.query import Query
-from ..embedders.base import BaseEmbedder
-from ..stores.base import BaseVectorStore
-from ..processors.base import BaseProcessor
-from ..retrievers.base import BaseRetriever
+from ..embedders.embedder_base import BaseEmbedder
+from ..stores.store_base import BaseVectorStore
+from ..processors.processor_base import BaseProcessor
+from ..retrievers.retriever_base import BaseRetriever
 
 logger = logging.getLogger(__name__)
 
 
-class KnowledgeBase(BaseKnowledgeBase):
+class KnowledgeBase(AbstractKnowledgeBase):
     """知识库主类 - 集成文档处理、嵌入和检索功能"""
     
     def __init__(self,

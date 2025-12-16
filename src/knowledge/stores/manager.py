@@ -5,7 +5,7 @@
 
 from typing import Dict, List, Optional, Type, Any
 import logging
-from .base import BaseVectorStore
+from .store_base import BaseVectorStore
 from ..core.schema.chunk import Chunk
 
 logger = logging.getLogger(__name__)

@@ -140,7 +140,7 @@ sys.path.insert(0, str(project_root))
 try:
     from src.shared.config.manager import ConfigManager
     from src.shared.utils.logger import get_logger
-    from src.agents.core.agent import SimpleAgent
+    from src.agents.impls.simple_agent import SimpleAgent
     print("✓ 核心模块导入成功")
 except ImportError as e:
     print(f"✗ 模块导入失败: {e}")
